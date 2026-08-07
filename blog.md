@@ -50,9 +50,9 @@ description: Daily plain-English analysis of PVARA, SECP, State Bank, FBR and FA
       <h2>Applying for a licence?</h2>
       <p>Reading the rules is the first half. The second is finding an adviser who has already filed one. Tell us what you need and we will send a shortlist within two business days.</p>
       <ul class="check-list">
-        <li>Free for applicants</li>
+        <li>The shortlist is free. Our 20% applies only if you appoint someone</li>
         <li>More than 25 vetted consultants worldwide</li>
-        <li>No consultant pays to rank higher</li>
+        <li>Consultants pay us nothing, so none can buy a place on your list</li>
       </ul>
       <a href="{{ site.forms.match_short }}" class="btn-primary" target="_blank" rel="noopener">Request my shortlist</a>
     </div>

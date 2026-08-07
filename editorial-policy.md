@@ -62,12 +62,15 @@ We would rather be corrected than be wrong quietly.
 
 ## How do we stay independent?
 
-Sarzif Policy earns money from one thing: consultants pay us 20 per cent of their fee when an applicant we introduced appoints them.
+Sarzif Policy earns money from one thing: when a client appoints a consultant we introduced, that client pays us 20% of the consultant's fee.
 
-That creates one obvious conflict, so here is how we contain it:
+Note the direction. **The consultants are not our customers and never pay us anything.** That removes the conflict most referral sites carry, because there is no arrangement an adviser could offer us in exchange for coverage.
 
-- **Consultants cannot buy coverage.** No article, mention or ranking on this site is for sale.
-- **Our fee percentage is identical across the panel**, so we have no financial reason to favour any adviser.
+A conflict does remain, so here is how we contain it:
+
+- **Consultants cannot buy coverage.** No article, mention or ranking on this site is for sale, at any price, to anyone.
+- **Our fee is the same 20% whichever consultant a client appoints**, so we gain nothing by steering them toward an expensive adviser over a cheap one.
+- **Reading this site is free and always will be.** Nothing is paywalled and nothing requires an enquiry.
 - **Editorial and matching are separate.** What we publish is not influenced by who is on the panel, and being written about does not put a firm on it.
 - **We accept no advertising, sponsored posts or paid links.**
 - **No regulator funds, reviews or approves this site.**

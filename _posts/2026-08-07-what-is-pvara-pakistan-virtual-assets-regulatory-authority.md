@@ -111,6 +111,6 @@ Where this article describes general licensing practice rather than a specific p
 
 Firms working through market entry and regulatory positioning in Pakistan may also find the market coverage at [CoinConnect](https://coinconnect.site) useful as background.
 
-This is information, not legal advice. If you are applying for a licence and want a shortlist of consultants who have completed comparable filings, our [matching service]({{ '/vasp-licensing/' | relative_url }}) is free for applicants.
+This is information, not legal advice. If you are applying for a licence and want a shortlist of consultants who have completed comparable filings, our [matching service]({{ '/vasp-licensing/' | relative_url }}) will send you one at no cost.
 
 **Published 7 August 2026. Corrections to [{{ site.email }}](mailto:{{ site.email }}).**

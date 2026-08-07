@@ -2,14 +2,14 @@
 layout: page
 title: VASP Licensing
 permalink: /vasp-licensing/
-lede: We connect firms applying for a virtual asset licence with consultants who have completed that exact filing before. Free for applicants. A shortlist in two business days.
-description: Free consultant matching for VASP licence applicants in Pakistan and worldwide. Tell us your licence type and gaps, get a shortlist of vetted advisers in two business days.
+lede: We connect firms applying for a virtual asset licence with consultants who have completed that exact filing before. A shortlist in two business days, at no cost until you appoint.
+description: Consultant matching for VASP licence applicants in Pakistan and worldwide. Tell us your licence type and gaps, get a shortlist of vetted advisers in two business days.
 updated: 7 August 2026
 faq:
   - q: What does Sarzif Policy actually do?
     a: We are a broker, not a consultancy. We do not file your application. We match you with an independent consultant from our panel who has completed that licence type before, and we step back once you appoint them.
   - q: How much does consultant matching cost?
-    a: Nothing for the applicant. We are paid by the consultant you appoint, at 20 per cent of their fee. You pay the consultant their normal rate and nothing extra to us.
+    a: The shortlist is free. Our fee is 20% of the consultant's fee, payable by you only if you appoint one of the consultants we introduce. Consultants pay us nothing, which is why none of them can buy a place on your shortlist.
   - q: How many consultants are on the panel?
     a: More than 25 advisers worldwide. We do not publish their names. Firms on our panel work under confidentiality with their own clients, so we introduce them only after you make contact and we understand your requirement.
   - q: How long does the shortlist take?
@@ -35,14 +35,17 @@ The licensing market has a matching problem. Firms hire the adviser they can fin
 
 ## What does it cost?
 
-Nothing for you. Sarzif Policy is paid by the consultant you appoint, at 20 per cent of their fee.
+**The shortlist is free.** You tell us what you need, we send you matched consultants, and you owe us nothing for that.
 
-We publish this because it matters to how you read our shortlist. Two rules follow from it:
+**Our fee is 20% of the consultant's fee**, and it becomes payable only if you appoint one of the consultants we introduce. If none of them suits you, you pay nothing and you keep the shortlist.
 
-- **No consultant pays to be listed or to rank higher.** Placement is decided on fit, nothing else.
-- **Our fee is the same percentage from every consultant on the panel.** We have no financial reason to prefer one over another.
+We publish this because it matters to how you read our recommendations:
 
-If a consultant ever offers us more to be recommended, they come off the panel.
+- **Consultants pay us nothing.** Not to join the panel, not to be listed, not to rank higher. There is no arrangement they could offer us, because they are not the ones paying.
+- **Our fee is the same 20% whichever consultant you choose.** We earn exactly the same from the cheapest adviser on the panel and the most expensive one, so we have no reason to push you toward either.
+- **We would rather tell you nobody fits.** A bad match costs us the fee anyway when it falls apart, and it costs us your trust permanently.
+
+If a consultant ever offers to pay us for a recommendation, they come off the panel.
 
 ## What licences do we cover?
 
@@ -82,7 +85,7 @@ We would rather say so now than waste your time.
 
 - **You want a guaranteed approval.** No adviser can offer that. A regulator decides.
 - **You want someone to help you avoid the rules.** We will not make that introduction.
-- **You have no budget yet.** That is fine, but tell us in the form so we match you to advisers who do a scoping engagement first.
+- **You have no budget yet.** That is fine, but tell us in the form so we match you to advisers who do a scoping engagement first. Remember our 20% sits on top of the consultant's fee, so factor that into what you can spend.
 
 ## What happens after you submit the form?
 
@@ -98,7 +101,7 @@ We do not cold call. We do not pass your details to anyone until you tell us whi
 We are a broker, not a consultancy. We do not file your application. We match you with an independent consultant who has completed that licence type before, and we step back once you appoint them.
 
 **How much does matching cost?**
-Nothing for the applicant. We are paid by the consultant you appoint, at 20 per cent of their fee. You pay their normal rate and nothing extra to us.
+The shortlist is free. Our fee is 20% of the consultant's fee, payable only if you appoint someone we introduce. Consultants pay us nothing, so none of them can buy a place on your shortlist.
 
 **How many consultants are on the panel?**
 More than 25 worldwide. We do not publish their names, because they work under confidentiality with their own clients. You get names in your shortlist.

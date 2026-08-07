@@ -31,7 +31,7 @@ She has eight years in the virtual asset industry:
 
 - **Four years in crypto regulation advisory**, working on VARA licensing in Dubai. This is where the approach behind Sarzif Policy comes from — she saw at close range which applications a regulator approves and which ones come back.
 - **Two years in crypto business development**, on the commercial side of the industry rather than the compliance side. It is a useful counterweight: she has had to build a business under the rules, not only interpret them.
-- **Two years building her own startup from the ground up.** She knows what a licensing bill does to a young company's runway, which is why matching is free for applicants.
+- **Two years building her own startup from the ground up.** She knows what a licensing bill does to a young company's runway, which is why nothing is charged until a client actually appoints someone.
 
 She has never been employed by a regulator. Her VARA experience is as a consultant advising licence applicants, not as a member of the authority.
 
@@ -49,12 +49,14 @@ The three researchers hold fifteen years of combined regulatory experience. We s
 
 ## How do we make money?
 
-We are paid by consultants, not by the firms we help. When an applicant appoints a consultant we introduced, that consultant pays us 20 per cent of their fee.
+We charge the firm we are helping, not the consultant. When a client appoints a consultant we introduced, the client pays us 20% of that consultant's fee.
 
 This is worth stating plainly because it shapes everything else:
 
-- **Applicants pay us nothing.** Not for the shortlist, not for the analysis, not for the checklists.
-- **No consultant can buy a place on the panel or a higher ranking.** The fee is the same percentage from every adviser, so we gain nothing from preferring one.
+- **Consultants pay us nothing.** Not to join the panel, not to be listed, not to rank higher. They are not our customer, so there is no arrangement they could offer us.
+- **Our fee is the same 20% whichever consultant a client picks.** We earn identically from the cheapest adviser on the panel and the most expensive, so we have no reason to steer anyone.
+- **The shortlist itself is free**, and the fee applies only on appointment. If nobody on the list suits you, you owe us nothing.
+- **Reading this site costs nothing.** The analysis, the checklists and the tracker are free and always will be.
 - **We publish this on the [VASP Licensing page]({{ '/vasp-licensing/' | relative_url }}) too**, because a reader should not have to hunt for it.
 
 ## What do we publish?
