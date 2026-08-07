@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<header class="page-header">
+  <div class="page-header-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ '/' | relative_url }}">Home</a> &rsaquo; {{ page.title }}
+    </nav>
+    <h1>{{ page.title }}</h1>
+    {% if page.lede %}<p class="lede">{{ page.lede }}</p>{% endif %}
+  </div>
+</header>
+
+{% if page.wide %}
+  {{ content }}
+{% else %}
+  <article class="prose">
+    {{ content }}
+  </article>
+{% endif %}
+
+{% if page.updated %}
+<p class="disclaimer">Last reviewed {{ page.updated }}. Sarzif Policy publishes information, not legal or financial advice. Always confirm requirements against the official position published by <a href="https://pvara.org" rel="noopener" target="_blank">PVARA</a> before acting.</p>
+{% endif %}

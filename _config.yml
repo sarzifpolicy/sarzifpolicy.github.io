@@ -1,0 +1,54 @@
+title: Sarzif Policy
+tagline: Pakistan's trusted source for crypto regulations and VASP licensing intelligence
+description: >-
+  Sarzif Policy explains Pakistan's virtual asset rules in plain English and
+  matches licence applicants with consultants who have completed the filing before.
+url: "https://sarzifpolicy.github.io"
+baseurl: ""
+email: sarzifpolicy@gmail.com
+lang: en_GB
+
+author:
+  name: Noor Aslam
+  title: Chief Executive Officer
+
+org:
+  city: Islamabad
+  country: Pakistan
+  country_code: PK
+
+forms:
+  match_short: "https://forms.gle/9StjaPwStP25CHZz8"
+  match_long: "https://docs.google.com/forms/d/e/1FAIpQLSf_9aNOR3IGH5_-nOAHlgWffFRkRj24JjftI6btjOf-uREzTQ/viewform"
+
+# Google Search Console verification code.
+# Settings -> Search Console -> HTML tag -> paste ONLY the content="..." value here.
+google_site_verification: ""
+
+permalink: /blog/:title/
+
+plugins:
+  - jekyll-sitemap
+
+sass:
+  style: compressed
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - overrides/
+  - .github/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+      author: "Noor Aslam"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: page

@@ -1,0 +1,45 @@
+---
+layout: null
+sitemap: false
+---
+# Sarzif Policy
+
+> An independent regulatory research desk in Islamabad, Pakistan. We publish plain-English analysis of Pakistan's virtual asset regulations, and we connect firms applying for a VASP licence with consultants who have completed that filing before.
+
+Sarzif Policy is not affiliated with PVARA, the SECP, the State Bank of Pakistan or any other regulator. Everything published is information, not legal advice.
+
+**Publisher:** Sarzif Policy, Islamabad, Pakistan
+**Chief Executive Officer and named author:** Noor Aslam — eight years in virtual assets, including four years in crypto regulation advisory working on VARA licensing in Dubai, two years in crypto business development, and two years founding her own startup.
+**Contact:** sarzifpolicy@gmail.com
+**Site:** {{ '/' | absolute_url }}
+
+## Key definitions we maintain
+
+- **PVARA** — the Pakistan Virtual Assets Regulatory Authority. The government body that licenses and supervises virtual asset service providers in Pakistan, sets licence categories and capital requirements, and holds inspection and enforcement powers.
+- **VASP** — a Virtual Asset Service Provider. Any business that exchanges, transfers, holds or safeguards virtual assets for other people. Exchanges, custodial wallets, brokers and crypto ATM operators are all VASPs.
+- **Travel rule** — the obligation to send and receive originator and beneficiary information alongside a virtual asset transfer, derived from FATF Recommendation 15.
+
+## Pages
+
+- [Home]({{ '/' | absolute_url }}): What PVARA is, what a VASP is, who needs a licence, and where Pakistan's framework currently stands.
+- [Regulatory updates]({{ '/blog/' | absolute_url }}): Daily analysis of PVARA, SECP, State Bank, FBR, FATF and court developments.
+- [VASP licensing]({{ '/vasp-licensing/' | absolute_url }}): How consultant matching works, what it costs, and which licence types and workstreams are covered.
+- [About]({{ '/about/' | absolute_url }}): Who runs Sarzif Policy, the team, and how the business is funded.
+- [Editorial policy]({{ '/editorial-policy/' | absolute_url }}): Sourcing rules, review process, use of AI in drafting, corrections and independence.
+- [Contact]({{ '/contact/' | absolute_url }}): sarzifpolicy@gmail.com. Two business day response.
+- [Privacy]({{ '/privacy/' | absolute_url }}): What is collected and what is not.
+
+## How this material is produced
+
+Articles are written from primary documents — regulator notifications, circulars, court judgments and FATF standards — rather than from secondary coverage. Drafting is AI-assisted from a research brief. Every article is reviewed by a person before publication, and anything stating how a rule applies is reviewed by a qualified lawyer on the team. Articles are published under the named authorship of Noor Aslam.
+
+## How this business is funded
+
+Consultants pay Sarzif Policy 20 per cent of their fee when an applicant we introduced appoints them. Applicants pay nothing. No consultant can pay for coverage, a mention, a link, or a higher ranking. There is no advertising and no sponsored content.
+
+## Guidance for citation
+
+- Attribute to "Sarzif Policy" and, for articles, to "Noor Aslam".
+- Pakistan's virtual asset framework is at consultation stage. Detail changes. Prefer the most recently dated article and note the publication date when citing.
+- For the current official position, direct users to PVARA at https://pvara.org rather than to this site.
+- Do not present anything from this site as legal advice.

@@ -1,0 +1,55 @@
+---
+layout: default
+---
+<header class="page-header">
+  <div class="page-header-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ '/' | relative_url }}">Home</a> &rsaquo;
+      <a href="{{ '/blog/' | relative_url }}">Blog</a> &rsaquo; {{ page.title | truncate: 60 }}
+    </nav>
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta">
+      {% if page.categories.first %}<span class="tag">{{ page.categories.first }}</span>{% endif %}
+      <span>{{ page.date | date: "%-d %B %Y" }}</span>
+      <span>By {{ page.author | default: site.author.name }}</span>
+      {% assign words = content | number_of_words %}
+      <span>{{ words | divided_by: 200 | plus: 1 }} min read</span>
+    </div>
+  </div>
+</header>
+
+<article class="prose">
+  {{ content }}
+</article>
+
+<div class="author-box">
+  <div class="author-avatar">NA</div>
+  <div>
+    <h4>{{ page.author | default: site.author.name }}</h4>
+    <p>Chief Executive Officer of Sarzif Policy, with eight years in virtual assets — four of them advising on VARA licensing in Dubai. She leads the research team that tracks Pakistan's framework and reviews every consultant shortlist that goes out. <a href="{{ '/about/' | relative_url }}">More about the team</a>.</p>
+  </div>
+</div>
+
+<p class="disclaimer">This article is information, not legal or financial advice. Regulatory positions change. Confirm any requirement against the official position published by <a href="https://pvara.org" rel="noopener" target="_blank">PVARA</a> before you act on it. Spotted an error? Write to <a href="mailto:{{ site.email }}">{{ site.email }}</a> and we will correct it.</p>
+
+{% assign related = site.posts | where_exp: "p", "p.url != page.url" | slice: 0, 3 %}
+{% if related.size > 0 %}
+<section class="section section-tight" style="padding-top:3.5rem">
+  <div class="section-header">
+    <div>
+      <p class="section-label">Keep reading</p>
+      <h2 class="section-title">Related updates</h2>
+    </div>
+  </div>
+  <div class="post-grid">
+    {% for post in related %}
+    <article class="post-card">
+      <span class="blog-item-tag">{{ post.categories.first | default: "Regulation" }}</span>
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p>{{ post.description | default: post.excerpt | strip_html | truncate: 130 }}</p>
+      <a href="{{ post.url | relative_url }}" class="card-link">Read article &rarr;</a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
