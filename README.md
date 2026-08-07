@@ -48,6 +48,7 @@ Enforced automatically on generated articles; the same standards apply to manual
 - Exactly one link to `https://pvara.org`
 - **No links to any site except `pvara.org` and `coinconnect.site`**
 - CoinConnect may appear in articles only, never on site pages
+- **CoinConnect link rate-limited to one per 6 articles.** Before generating, the script reads the last 5 published posts; if any carries a CoinConnect link, the rule flips to "do not mention CoinConnect at all" and an article that ignores it is rejected. Change the frequency via `COINCONNECT_GAP` in `publish.py`
 - No invented ordinance numbers, thresholds or dates
 - Author byline: Noor Aslam
 

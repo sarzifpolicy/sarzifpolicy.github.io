@@ -33,9 +33,7 @@ She has eight years in the virtual asset industry:
 - **Two years in crypto business development**, on the commercial side of the industry rather than the compliance side. It is a useful counterweight: she has had to build a business under the rules, not only interpret them.
 - **Two years building her own startup from the ground up.** She knows what a licensing bill does to a young company's runway, which is why matching is free for applicants.
 
-<!-- NOTE FOR MALIK: this says Noor spent four years ADVISING ON VARA licensing as a consultant.
-     If she was actually EMPLOYED BY VARA the regulator, tell me and I will change the wording —
-     but those are very different claims and the second one gets checked. -->
+She has never been employed by a regulator. Her VARA experience is as a consultant advising licence applicants, not as a member of the authority.
 
 ## Who is on the team?
 

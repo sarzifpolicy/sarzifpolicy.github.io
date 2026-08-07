@@ -68,7 +68,7 @@ CONTENT RULES
 8. Write for crypto business operators, not lawyers. Short sentences. Plain words. Explain every abbreviation the first time you use it.
 9. Cite only these sources by name: PVARA, SECP, the State Bank of Pakistan, the FBR, FATF, and Pakistani courts.
 10. Include exactly one markdown link to https://pvara.org somewhere sensible in the body.
-11. You may include at most one markdown link to https://coinconnect.site if it fits naturally as background reading. If it does not fit, leave it out.
+11. {coinconnect_rule}
 12. Do NOT link to or name any other website, company, exchange, law firm or consultancy. No competitor names. No news outlets.
 13. Never invent a specific ordinance number, section number, circular reference, monetary threshold, deadline or date. If a specific figure would be needed, describe the requirement in general terms and tell the reader to verify the current figure with PVARA.
 14. Where you describe general international practice rather than a confirmed published Pakistani requirement, say so explicitly in that sentence.
@@ -127,6 +127,47 @@ def write_calendar(rows):
         writer = csv.DictWriter(fh, fieldnames=fields)
         writer.writeheader()
         writer.writerows(rows)
+
+
+# How many of the most recent articles must be free of a CoinConnect link
+# before another one is allowed. Set to 5 = at most one link every 6 articles.
+COINCONNECT_GAP = 5
+
+COINCONNECT_ALLOWED_RULE = (
+    "You MAY include at most one markdown link to https://coinconnect.site, but only "
+    "if it genuinely fits as background reading in the closing section. If it does not "
+    "fit naturally, leave it out entirely — a forced link is worse than no link."
+)
+COINCONNECT_BLOCKED_RULE = (
+    "Do NOT mention or link CoinConnect anywhere in this article. The only external "
+    "link permitted is the one to https://pvara.org."
+)
+
+
+def recent_posts(limit):
+    """Return the newest post file paths, newest first."""
+    if not os.path.isdir(POSTS_DIR):
+        return []
+    names = sorted(
+        (n for n in os.listdir(POSTS_DIR) if n.endswith(".md")),
+        reverse=True,
+    )
+    return [os.path.join(POSTS_DIR, n) for n in names[:limit]]
+
+
+def coinconnect_allowed():
+    """
+    Allow a CoinConnect link only when none of the last COINCONNECT_GAP articles
+    already carries one. That guarantees a gap of at least 5 articles between links.
+    """
+    for path in recent_posts(COINCONNECT_GAP):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                if "coinconnect.site" in fh.read().lower():
+                    return False
+        except OSError:
+            continue
+    return True
 
 
 def post_exists_for_today():
@@ -191,7 +232,7 @@ def clean_output(text):
     return text.strip()
 
 
-def validate(article):
+def validate(article, allow_coinconnect=True):
     """Refuse to publish anything that breaks a hard content rule."""
     problems = []
 
@@ -215,6 +256,15 @@ def validate(article):
 
     if "coinconnect" in article.lower() and "coinconnect.site" not in article.lower():
         problems.append("CoinConnect mentioned without a proper link")
+
+    if not allow_coinconnect and "coinconnect" in article.lower():
+        problems.append(
+            f"CoinConnect appears, but the last {COINCONNECT_GAP} articles "
+            "already carry a link — remove it entirely"
+        )
+
+    if article.lower().count("coinconnect.site") > 1:
+        problems.append("more than one CoinConnect link")
 
     return problems
 
@@ -269,6 +319,12 @@ def publish_from_calendar():
 
     log(f"slot {row['slot_id']}: {row['topic']}")
 
+    allow_cc = coinconnect_allowed()
+    log(
+        f"CoinConnect link: {'ALLOWED' if allow_cc else 'BLOCKED'} "
+        f"(needs {COINCONNECT_GAP} clear articles between links)"
+    )
+
     prompt = PROMPT_TEMPLATE.format(
         topic=row["topic"],
         keywords=row["keywords"],
@@ -276,11 +332,14 @@ def publish_from_calendar():
         date_iso=TODAY_STR,
         date_long=TODAY.strftime("%-d %B %Y") if os.name != "nt" else TODAY.strftime("%d %B %Y"),
         author=AUTHOR,
+        coinconnect_rule=(
+            COINCONNECT_ALLOWED_RULE if allow_cc else COINCONNECT_BLOCKED_RULE
+        ),
     )
 
     article = clean_output(call_gemini(prompt))
 
-    problems = validate(article)
+    problems = validate(article, allow_coinconnect=allow_cc)
     if problems:
         log("VALIDATION FAILED — retrying once with the problems fed back")
         retry_prompt = (
@@ -290,7 +349,7 @@ def publish_from_calendar():
             + ". Fix every one of them and return the corrected article."
         )
         article = clean_output(call_gemini(retry_prompt))
-        problems = validate(article)
+        problems = validate(article, allow_coinconnect=allow_cc)
         if problems:
             raise RuntimeError("article rejected twice: " + "; ".join(problems))
 
