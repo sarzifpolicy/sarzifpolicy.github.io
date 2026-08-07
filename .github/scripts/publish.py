@@ -38,6 +38,7 @@ OVERRIDES = os.path.join(ROOT, "overrides")
 API_KEY = os.environ.get("GEMINI_API_KEY", "")
 MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 DRY_RUN = os.environ.get("DRY_RUN") == "1"
+FORCE = os.environ.get("FORCE") == "1"
 
 AUTHOR = "Noor Aslam"
 TODAY = datetime.now(PKT)
@@ -311,8 +312,11 @@ def main():
     log(f"run for {TODAY_STR} (PKT)")
 
     if post_exists_for_today():
-        log("a post already exists for today — stopping so nothing is duplicated")
-        return 0
+        if not FORCE:
+            log("a post already exists for today — stopping so nothing is duplicated")
+            log("(re-run with the 'force' option ticked to publish anyway)")
+            return 0
+        log("a post already exists for today, but FORCE is set — publishing anyway")
 
     if publish_override():
         return 0

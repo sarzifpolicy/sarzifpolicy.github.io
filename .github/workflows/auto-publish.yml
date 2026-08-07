@@ -10,6 +10,10 @@ on:
         description: "Generate but do not commit (preview only)"
         type: boolean
         default: false
+      force:
+        description: "Publish even if a post already exists for today"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -24,10 +28,10 @@ jobs:
 
     steps:
       - name: Check out the site
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -36,6 +40,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: gemini-2.5-flash
           DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+          FORCE: ${{ inputs.force && '1' || '0' }}
         run: python .github/scripts/publish.py
 
       - name: Commit and push
