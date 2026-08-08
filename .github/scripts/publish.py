@@ -44,6 +44,11 @@ AUTHOR = "Noor Aslam"
 TODAY = datetime.now(PKT)
 TODAY_STR = TODAY.strftime("%Y-%m-%d")
 
+# Jekyll hides posts dated in the future, so the timestamp must be the moment
+# the article is actually written — never a fixed hour. With three articles a
+# day this also gives each one a distinct time, so they sort correctly.
+DATE_STAMP = TODAY.strftime("%Y-%m-%d %H:%M:%S +0500")
+
 # The content rules are hardcoded here on purpose. They are not a per-run
 # setting -- they are the standards the site is accountable to.
 PROMPT_TEMPLATE = """You are a regulatory analyst writing for Sarzif Policy, an independent research desk in Islamabad covering Pakistan's virtual asset regulations.
@@ -82,7 +87,7 @@ Return ONLY the article. Start with this exact front matter and nothing before i
 ---
 layout: post
 title: "<a clear, specific title under 70 characters, phrased for search>"
-date: {date_iso} 09:00:00 +0500
+date: {date_stamp}
 categories: [{category}]
 author: "{author}"
 description: "<one sentence, 140 to 160 characters, describing what the reader learns>"
@@ -354,7 +359,7 @@ def publish_override():
             "---\n"
             "layout: post\n"
             f'title: "{title}"\n'
-            f"date: {TODAY_STR} 09:00:00 +0500\n"
+            f"date: {DATE_STAMP}\n"
             "categories: [PVARA]\n"
             f'author: "{AUTHOR}"\n'
             "---\n\n" + body
@@ -391,7 +396,7 @@ def publish_from_calendar():
         topic=row["topic"],
         keywords=row["keywords"],
         category=row["category"],
-        date_iso=TODAY_STR,
+        date_stamp=DATE_STAMP,
         date_long=TODAY.strftime("%-d %B %Y") if os.name != "nt" else TODAY.strftime("%d %B %Y"),
         author=AUTHOR,
         coinconnect_rule=(

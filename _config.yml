@@ -27,6 +27,11 @@ google_site_verification: ""
 
 permalink: /blog/:title/
 
+# Publish posts even if their timestamp is slightly ahead of the build clock.
+# Without this, Jekyll silently hides any post dated in the future — an article
+# stamped 09:00 and built at 07:36 simply would not appear on the site.
+future: true
+
 plugins:
   - jekyll-sitemap
 

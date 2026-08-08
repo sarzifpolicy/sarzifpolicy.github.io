@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Pakistan VASP Licence: Who Needs It and Who Does Not"
-date: 2026-08-08 09:00:00 +0500
+date: 2026-08-08 07:36:00 +0500
 categories: [PVARA]
 author: "Noor Aslam"
 description: "This article clarifies which virtual asset activities in Pakistan may require a VASP licence under proposed regulations and which activities are currently exempt."
