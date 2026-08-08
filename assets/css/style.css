@@ -82,29 +82,31 @@ img, svg { max-width: 100%; }
 .nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
 /* --------------------------------------------------------------- Hero --- */
+/* Single centred column. The diagram was removed on 9 Aug 2026. */
 .hero {
-  max-width: var(--max-width); margin: 0 auto;
-  padding: 5rem 2rem 3rem;
-  display: grid; grid-template-columns: 1.05fr 1fr; gap: 3.5rem;
-  align-items: center;
+  max-width: 860px; margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+  text-align: center;
 }
 .hero-label {
-  display: flex; align-items: center; gap: 0.75rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.75rem;
   color: var(--accent); font-size: 0.72rem;
   text-transform: uppercase; letter-spacing: 2px;
   font-weight: 600; margin-bottom: 1.4rem;
 }
-.hero-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+/* Rules either side of the label, so it stays balanced when centred. */
+.hero-label::before,
+.hero-label::after { content: ''; width: 24px; height: 1px; background: var(--accent); }
 .hero h1 {
-  font-size: 3.1rem; font-weight: 700; line-height: 1.1;
-  margin-bottom: 1.3rem; letter-spacing: -1.5px;
+  font-size: 3.4rem; font-weight: 700; line-height: 1.1;
+  margin-bottom: 1.4rem; letter-spacing: -1.5px;
 }
 .hero h1 .accent { color: var(--accent); }
 .hero-sub {
   color: var(--text-dim); font-size: 1.1rem;
-  line-height: 1.7; margin-bottom: 2rem; max-width: 500px;
+  line-height: 1.75; margin: 0 auto 2.25rem; max-width: 620px;
 }
-.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 
 /* ------------------------------------------------------------ Buttons --- */
 .btn-primary {
@@ -123,49 +125,6 @@ img, svg { max-width: 100%; }
   display: inline-block;
 }
 .btn-secondary:hover { border-color: var(--border-hover); background: var(--bg-card); }
-
-/* ------------------------------------------------------- Hero visual --- */
-.hero-visual {
-  position: relative;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: #14100D;
-  overflow: hidden;
-}
-.hero-visual svg { display: block; width: 100%; height: auto; }
-.readiness-card {
-  background: rgba(255,255,255,0.02);
-  border-top: 1px solid var(--border);
-  padding: 1rem 1.25rem 1.15rem;
-}
-.readiness-head {
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 0.78rem; font-weight: 600; margin-bottom: 0.7rem;
-  padding-bottom: 0.6rem; border-bottom: 1px solid var(--border);
-}
-.readiness-pct {
-  background: var(--accent); color: #17130F;
-  font-size: 0.6rem; font-weight: 700;
-  padding: 0.1rem 0.35rem; border-radius: 3px;
-}
-.readiness-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0.15rem 1rem; }
-.readiness-item {
-  display: flex; align-items: center; gap: 0.55rem;
-  font-size: 0.75rem; color: var(--text-dim); padding: 0.18rem 0;
-}
-.readiness-item.done { color: var(--text); }
-.tick { width: 13px; height: 13px; border-radius: 3px; flex: none; border: 1px solid var(--border); }
-.readiness-item.done .tick { background: var(--accent); border-color: var(--accent); position: relative; }
-.readiness-item.done .tick::after {
-  content: '\2713'; position: absolute; inset: 0;
-  color: #17130F; font-size: 9px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-}
-.readiness-bar {
-  margin-top: 0.7rem; height: 3px; border-radius: 2px;
-  background: rgba(255,255,255,0.1); overflow: hidden;
-}
-.readiness-bar i { display: block; height: 100%; width: 72%; background: var(--accent); }
 
 /* -------------------------------------------------------------- Stats --- */
 .stats-bar {
@@ -479,9 +438,8 @@ img, svg { max-width: 100%; }
 
 /* --------------------------------------------------------- Responsive --- */
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem 2rem; gap: 2.5rem; }
+  .hero { padding: 3.5rem 1.5rem 2.5rem; }
   .hero h1 { font-size: 2.2rem; }
-  .hero-visual { order: -1; }
   .stats-bar { grid-template-columns: 1fr; padding: 0 1.5rem 2rem; }
   .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1.25rem; }
   .section { padding: 3.5rem 1.5rem; }
@@ -493,7 +451,6 @@ img, svg { max-width: 100%; }
   .nav-container { padding: 0.8rem 1.5rem; }
   .nav-links { order: 3; width: 100%; gap: 1.25rem; justify-content: flex-start; }
   .nav-links a { font-size: 0.82rem; }
-  .readiness-items { grid-template-columns: 1fr; }
   .page-header-inner { padding: 2.5rem 1.5rem; }
   .page-header h1 { font-size: 1.9rem; }
   .prose { padding: 2.5rem 1.5rem 3rem; }
