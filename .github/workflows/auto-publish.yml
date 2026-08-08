@@ -8,9 +8,21 @@ on:
     # None of these sit on the hour, and that is deliberate: GitHub queues
     # every cron job firing at :00 together, so top-of-hour schedules are the
     # most delayed and the most likely to be dropped under load.
+    # Each slot has two catch-up runs behind it. GitHub delays scheduled
+    # workflows under load and sometimes drops them entirely, so a single cron
+    # per slot is unreliable. The script publishes only when an article is
+    # actually owed, so a catch-up that finds nothing missing just exits.
     - cron: "11 2 * * *"    # 07:11 PKT — morning
+    - cron: "36 2 * * *"    # 07:36 PKT — morning catch-up
+    - cron: "6 3 * * *"     # 08:06 PKT — morning catch-up
+
     - cron: "12 9 * * *"    # 14:12 PKT — afternoon
+    - cron: "37 9 * * *"    # 14:37 PKT — afternoon catch-up
+    - cron: "7 10 * * *"    # 15:07 PKT — afternoon catch-up
+
     - cron: "23 14 * * *"   # 19:23 PKT — evening
+    - cron: "48 14 * * *"   # 19:48 PKT — evening catch-up
+    - cron: "18 15 * * *"   # 20:18 PKT — evening catch-up
   workflow_dispatch:
     inputs:
       dry_run:

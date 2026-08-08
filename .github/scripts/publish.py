@@ -179,10 +179,9 @@ def coinconnect_allowed():
     return True
 
 
-# The site publishes three articles a day, on three separate schedules.
-# This caps the total so a double-fired or retried workflow can never flood
-# the blog. Raise or lower it here and add/remove a cron in auto-publish.yml.
-MAX_POSTS_PER_DAY = 3
+# Publishing slots, in Pakistan Standard Time. One article per slot.
+SLOTS = [(7, 11), (14, 12), (19, 23)]
+MAX_POSTS_PER_DAY = len(SLOTS)
 
 
 def posts_today():
@@ -192,9 +191,24 @@ def posts_today():
     return [n for n in os.listdir(POSTS_DIR) if n.startswith(TODAY_STR)]
 
 
-def daily_quota_reached():
-    """True once today's allowance is used up."""
-    return len(posts_today()) >= MAX_POSTS_PER_DAY
+def expected_by_now():
+    """
+    How many articles SHOULD exist by now, based on which slots have passed.
+
+    GitHub frequently delays scheduled workflows and sometimes drops them
+    entirely. Rather than trusting each cron to fire exactly once, the
+    workflow also runs catch-up jobs after every slot. Comparing what exists
+    against what should exist means a missed run is simply picked up by the
+    next job, and a slot that already published is skipped. The schedule
+    becomes self-healing instead of fragile.
+    """
+    now = (TODAY.hour, TODAY.minute)
+    return sum(1 for slot in SLOTS if now >= slot)
+
+
+def behind_schedule():
+    """True when a slot has passed but its article was never published."""
+    return len(posts_today()) < expected_by_now()
 
 
 def write_post(filename, body):
@@ -418,15 +432,20 @@ def publish_from_calendar():
 def main():
     log(f"run for {TODAY_STR} (PKT)")
 
-    published_today = len(posts_today())
-    log(f"published so far today: {published_today} of {MAX_POSTS_PER_DAY}")
+    done, due = len(posts_today()), expected_by_now()
+    log(f"time now {TODAY.strftime('%H:%M')} PKT | published today: {done} | due by now: {due}")
 
-    if daily_quota_reached():
+    if not behind_schedule():
         if not FORCE:
-            log(f"daily limit of {MAX_POSTS_PER_DAY} reached — stopping")
+            if done >= MAX_POSTS_PER_DAY:
+                log(f"all {MAX_POSTS_PER_DAY} articles for today are published — stopping")
+            else:
+                log("on schedule, next slot has not arrived yet — stopping")
             log("(re-run with the 'force' option ticked to publish anyway)")
             return 0
-        log(f"daily limit of {MAX_POSTS_PER_DAY} reached, but FORCE is set — publishing anyway")
+        log("not due yet, but FORCE is set — publishing anyway")
+    else:
+        log(f"behind schedule by {due - done} — catching up")
 
     if publish_override():
         return 0
