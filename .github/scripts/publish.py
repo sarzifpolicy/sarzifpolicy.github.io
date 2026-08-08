@@ -75,6 +75,14 @@ CONTENT RULES
 10. Include exactly one markdown link to https://pvara.org somewhere sensible in the body.
 11. {coinconnect_rule}
 12. Do NOT link to or name any other website, company, exchange, law firm or consultancy. No competitor names. No news outlets.
+
+INTERNAL LINKS — IMPORTANT
+Include {link_target} links to the pages listed below, spread through the body.
+Use ONLY these exact URLs. Never invent a URL. Never link the same page twice.
+Weave each link into a sentence where it genuinely helps the reader — link the
+words that describe the destination, not "click here" or "read more".
+
+{link_list}
 13. Never invent a specific ordinance number, section number, circular reference, monetary threshold, deadline or date. If a specific figure would be needed, describe the requirement in general terms and tell the reader to verify the current figure with PVARA.
 14. Where you describe general international practice rather than a confirmed published Pakistani requirement, say so explicitly in that sentence.
 15. Pakistan's framework is at consultation stage. Do not write as though final rules are in force.
@@ -187,6 +195,174 @@ def coinconnect_allowed():
 # Publishing slots, in Pakistan Standard Time. One article per slot.
 SLOTS = [(7, 11), (14, 12), (19, 23)]
 MAX_POSTS_PER_DAY = len(SLOTS)
+
+
+# ------------------------------------------------------- internal linking --
+
+# How many internal links each article should carry. Capped automatically by
+# how many pages actually exist, so early articles are not forced to repeat
+# the same target over and over.
+MIN_INTERNAL_LINKS = 8
+MAX_INTERNAL_LINKS = 10
+
+# Permanent pages, with the phrases that should become anchor text.
+STATIC_PAGES = [
+    ("/vasp-licensing/", "VASP licensing service", [
+        "consultant", "consultants", "licensing consultant", "shortlist",
+        "matching service", "adviser", "advisers", "licence application",
+    ]),
+    ("/blog/", "regulatory updates", [
+        "regulatory updates", "our analysis", "latest updates", "our coverage",
+    ]),
+    ("/about/", "about Sarzif Policy", [
+        "our research team", "research desk", "our team", "Sarzif Policy",
+    ]),
+    ("/editorial-policy/", "editorial policy", [
+        "editorial policy", "editorial standards", "how we source",
+        "sourcing standards", "corrections",
+    ]),
+    ("/contact/", "contact us", [
+        "contact us", "get in touch", "email us",
+    ]),
+]
+
+
+def post_url(filename):
+    """_posts/2026-08-08-some-slug.md -> /blog/some-slug/  (matches permalink)"""
+    stem = re.sub(r"\.md$", "", filename)
+    slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", stem)
+    return f"/blog/{slug}/"
+
+
+STOPWORDS = {
+    "a", "an", "the", "and", "or", "but", "if", "of", "to", "in", "on", "for",
+    "with", "what", "is", "are", "does", "do", "how", "why", "who", "when",
+    "which", "that", "this", "it", "its", "your", "you", "we", "our", "not",
+    "guide", "plain", "english", "explained", "practical", "actually",
+}
+
+
+def anchor_phrases(title):
+    """
+    Natural anchor text candidates from an article title.
+
+    A full headline rarely appears verbatim in another article, so linking on
+    the title alone almost never matches. Distinctive 2-4 word phrases from
+    inside it do — "travel rule", "fit and proper", "capital requirements".
+    """
+    phrases = [title]
+    core = re.sub(r"[:\-–—?].*$", "", title).strip()
+    if len(core.split()) >= 3 and core.lower() != title.lower():
+        phrases.append(core)
+
+    words = re.findall(r"[\w'-]+", title)
+    for size in (4, 3, 2):
+        for i in range(len(words) - size + 1):
+            window = words[i:i + size]
+            # Anchors must start and end on a meaningful word.
+            if window[0].lower() in STOPWORDS or window[-1].lower() in STOPWORDS:
+                continue
+            if sum(1 for w in window if w.lower() not in STOPWORDS) < 2:
+                continue
+            phrase = " ".join(window)
+            if len(phrase) >= 10:
+                phrases.append(phrase)
+
+    seen, out = set(), []
+    for p in phrases:
+        if p.lower() not in seen:
+            seen.add(p.lower())
+            out.append(p)
+    return out
+
+
+def link_inventory(exclude_slug=None):
+    """
+    Every internal page an article may link to.
+
+    Rebuilt from disk on every run, so each new article automatically becomes
+    a link target for every article published after it. The map maintains
+    itself — there is no list to keep updated by hand.
+    """
+    inventory = [(u, t, list(k)) for u, t, k in STATIC_PAGES]
+
+    if not os.path.isdir(POSTS_DIR):
+        return inventory
+
+    for name in sorted(os.listdir(POSTS_DIR), reverse=True):
+        if not name.endswith(".md"):
+            continue
+        if exclude_slug and exclude_slug in name:
+            continue
+        try:
+            with open(os.path.join(POSTS_DIR, name), encoding="utf-8") as fh:
+                head = fh.read(1200)
+        except OSError:
+            continue
+
+        m = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', head, re.M)
+        if not m:
+            continue
+        title = m.group(1).strip()
+
+        inventory.append((post_url(name), title, anchor_phrases(title)))
+
+    return inventory
+
+
+def count_internal_links(text):
+    return len(re.findall(r"\]\(/[^)]*\)", text))
+
+
+def strip_unknown_internal_links(text, valid_urls):
+    """Unwrap any internal link the model invented, keeping the words."""
+    def repl(m):
+        label, url = m.group(1), m.group(2)
+        return label if url not in valid_urls else m.group(0)
+    return re.sub(r"\[([^\]]+)\]\((/[^)]*)\)", repl, text)
+
+
+def inject_internal_links(text, inventory, target):
+    """
+    Top the article up to `target` internal links.
+
+    Only plain body paragraphs are touched: never headings, never front matter,
+    never text already inside a link, and each target is used at most once.
+    """
+    lines = text.split("\n")
+    used = set(re.findall(r"\]\((/[^)]*)\)", text))
+    have = count_internal_links(text)
+    in_front_matter = False
+
+    for i, line in enumerate(lines):
+        if have >= target:
+            break
+        if line.strip() == "---":
+            in_front_matter = not in_front_matter
+            continue
+        if in_front_matter or not line.strip():
+            continue
+        if line.lstrip().startswith(("#", ">", "|", "```", "-", "*")) or re.match(r"^\s*\d+\.", line):
+            continue
+
+        for url, _title, keywords in inventory:
+            if have >= target or url in used:
+                continue
+            for kw in sorted(keywords, key=len, reverse=True):
+                if len(kw) < 6:
+                    continue
+                # Skip if this phrase is already part of a link on this line.
+                pattern = re.compile(r"(?<!\[)\b(" + re.escape(kw) + r")\b(?![^\[]*\])", re.I)
+                m = pattern.search(line)
+                if not m:
+                    continue
+                line = line[: m.start()] + f"[{m.group(1)}]({url})" + line[m.end():]
+                lines[i] = line
+                used.add(url)
+                have += 1
+                break
+
+    return "\n".join(lines)
 
 
 def posts_today():
@@ -392,6 +568,14 @@ def publish_from_calendar():
         f"(needs {COINCONNECT_GAP} clear articles between links)"
     )
 
+    inventory = link_inventory()
+    link_min = min(MIN_INTERNAL_LINKS, len(inventory))
+    link_max = min(MAX_INTERNAL_LINKS, len(inventory))
+    log(f"internal link targets available: {len(inventory)} — asking for {link_min}-{link_max}")
+
+    link_list = "\n".join(f"- {url}  ({title})" for url, title, _ in inventory)
+    link_target = f"{link_min} to {link_max}" if link_max > link_min else str(link_min)
+
     prompt = PROMPT_TEMPLATE.format(
         topic=row["topic"],
         keywords=row["keywords"],
@@ -402,9 +586,26 @@ def publish_from_calendar():
         coinconnect_rule=(
             COINCONNECT_ALLOWED_RULE if allow_cc else COINCONNECT_BLOCKED_RULE
         ),
+        link_list=link_list,
+        link_target=link_target,
     )
 
     article = clean_output(call_gemini(prompt))
+
+    # The model is asked for internal links, but never trusted to get them
+    # right. Invented URLs are unwrapped, then the article is topped up to the
+    # target from the real inventory.
+    valid_urls = {url for url, _, _ in inventory}
+    before = count_internal_links(article)
+    article = strip_unknown_internal_links(article, valid_urls)
+    kept = count_internal_links(article)
+    if before != kept:
+        log(f"removed {before - kept} invented internal link(s)")
+    if kept < link_min:
+        article = inject_internal_links(article, inventory, link_min)
+        log(f"internal links: {kept} from the model, topped up to {count_internal_links(article)}")
+    else:
+        log(f"internal links: {kept}")
 
     problems = validate(article, allow_coinconnect=allow_cc)
     if problems:
