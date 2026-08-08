@@ -22,8 +22,19 @@ layout: default
   {{ content }}
 </article>
 
+{%- comment -%}
+  Uses Noor's photo once assets/img/noor-aslam.jpg exists in the repo.
+  Falls back to the NA initials block until then, so nothing ever renders broken.
+{%- endcomment -%}
+{%- assign author_photo = site.static_files | where: "path", "/assets/img/noor-aslam.jpg" | first -%}
 <div class="author-box">
-  <div class="author-avatar">NA</div>
+  {% if author_photo %}
+    <img class="author-photo" src="{{ '/assets/img/noor-aslam.jpg' | relative_url }}"
+         alt="Noor Aslam, Chief Executive Officer of Sarzif Policy"
+         width="72" height="72" loading="lazy">
+  {% else %}
+    <div class="author-avatar">NA</div>
+  {% endif %}
   <div>
     <h4>{{ page.author | default: site.author.name }}</h4>
     <p>Chief Executive Officer of Sarzif Policy, with eight years in virtual assets — four of them advising on VARA licensing in Dubai. She leads the research team that tracks Pakistan's framework and reviews every consultant shortlist that goes out. <a href="{{ '/about/' | relative_url }}">More about the team</a>.</p>

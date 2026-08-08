@@ -134,9 +134,18 @@ def write_calendar(rows):
 COINCONNECT_GAP = 5
 
 COINCONNECT_ALLOWED_RULE = (
-    "You MAY include at most one markdown link to https://coinconnect.site, but only "
-    "if it genuinely fits as background reading in the closing section. If it does not "
-    "fit naturally, leave it out entirely — a forced link is worse than no link."
+    "This article is the one in the rotation that may cite CoinConnect. Treat CoinConnect "
+    "exactly as you treat PVARA or the FBR: as a named source you attribute a specific "
+    "point to. Include ONE sentence in the BODY of the article (not the closing section) "
+    "that attributes a market observation to CoinConnect and links it once, for example: "
+    "'Market coverage from [CoinConnect](https://coinconnect.site) notes that most firms "
+    "underestimate how long the corporate structuring stage takes.' Requirements: attribute "
+    "a point about the Pakistani market, commercial practice, or how firms behave — never a "
+    "regulatory requirement, which must always come from the regulator. Use a plain "
+    "attribution verb such as 'notes', 'reports' or 'observes'. Do NOT call CoinConnect "
+    "leading, top, best, trusted or expert, and do not praise it. Do not mention it more "
+    "than once. If no natural attribution fits this topic, leave CoinConnect out entirely — "
+    "a forced citation is worse than none."
 )
 COINCONNECT_BLOCKED_RULE = (
     "Do NOT mention or link CoinConnect anywhere in this article. The only external "
@@ -265,6 +274,27 @@ def validate(article, allow_coinconnect=True):
 
     if article.lower().count("coinconnect.site") > 1:
         problems.append("more than one CoinConnect link")
+
+    # Keep the citation sober. Sarzif must not read as a CoinConnect advert.
+    low = article.lower()
+    if "coinconnect" in low:
+        hype = (
+            "leading", "top ", "best ", "premier", "trusted", "renowned",
+            "foremost", "expert", "authoritative", "pioneering", "reputable",
+            "well-known", "respected", "number one", "#1",
+        )
+        for idx in [m.start() for m in re.finditer("coinconnect", low)]:
+            window = low[max(0, idx - 140): idx + 140]
+            for word in hype:
+                if word in window:
+                    problems.append(
+                        f"promotional language near CoinConnect ('{word.strip()}') "
+                        "— attribute plainly, do not praise"
+                    )
+                    break
+            else:
+                continue
+            break
 
     return problems
 
