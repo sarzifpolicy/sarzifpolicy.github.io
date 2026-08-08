@@ -179,11 +179,22 @@ def coinconnect_allowed():
     return True
 
 
-def post_exists_for_today():
-    """Guard against double-publishing if the workflow is triggered twice."""
+# The site publishes three articles a day, on three separate schedules.
+# This caps the total so a double-fired or retried workflow can never flood
+# the blog. Raise or lower it here and add/remove a cron in auto-publish.yml.
+MAX_POSTS_PER_DAY = 3
+
+
+def posts_today():
+    """Filenames of posts already published today."""
     if not os.path.isdir(POSTS_DIR):
-        return False
-    return any(name.startswith(TODAY_STR) for name in os.listdir(POSTS_DIR))
+        return []
+    return [n for n in os.listdir(POSTS_DIR) if n.startswith(TODAY_STR)]
+
+
+def daily_quota_reached():
+    """True once today's allowance is used up."""
+    return len(posts_today()) >= MAX_POSTS_PER_DAY
 
 
 def write_post(filename, body):
@@ -316,6 +327,13 @@ def publish_override():
     match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', body, re.M)
     title = match.group(1) if match else "update"
 
+    # With three slots a day, make sure an override is used once and not
+    # re-published by the afternoon and evening runs.
+    filename = f"{TODAY_STR}-{slugify(title)}.md"
+    if filename in posts_today():
+        log("override for today has already been published — using the calendar instead")
+        return False
+
     if not body.startswith("---"):
         log("override has no front matter — adding it")
         body = (
@@ -328,7 +346,7 @@ def publish_override():
             "---\n\n" + body
         )
 
-    write_post(f"{TODAY_STR}-{slugify(title)}.md", body)
+    write_post(filename, body)
 
     # Deliberately do NOT advance the pointer. The queued topic waits its turn.
     log("override published — calendar pointer left untouched")
@@ -400,12 +418,15 @@ def publish_from_calendar():
 def main():
     log(f"run for {TODAY_STR} (PKT)")
 
-    if post_exists_for_today():
+    published_today = len(posts_today())
+    log(f"published so far today: {published_today} of {MAX_POSTS_PER_DAY}")
+
+    if daily_quota_reached():
         if not FORCE:
-            log("a post already exists for today — stopping so nothing is duplicated")
+            log(f"daily limit of {MAX_POSTS_PER_DAY} reached — stopping")
             log("(re-run with the 'force' option ticked to publish anyway)")
             return 0
-        log("a post already exists for today, but FORCE is set — publishing anyway")
+        log(f"daily limit of {MAX_POSTS_PER_DAY} reached, but FORCE is set — publishing anyway")
 
     if publish_override():
         return 0

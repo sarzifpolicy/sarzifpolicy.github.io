@@ -2,8 +2,15 @@ name: Daily article
 
 on:
   schedule:
-    # 06:00 Pakistan Standard Time = 01:00 UTC
-    - cron: "0 1 * * *"
+    # Three articles a day. Times below are Pakistan Standard Time (UTC+5),
+    # so each cron is the PKT time minus 5 hours.
+    #
+    # None of these sit on the hour, and that is deliberate: GitHub queues
+    # every cron job firing at :00 together, so top-of-hour schedules are the
+    # most delayed and the most likely to be dropped under load.
+    - cron: "11 2 * * *"    # 07:11 PKT — morning
+    - cron: "12 9 * * *"    # 14:12 PKT — afternoon
+    - cron: "23 14 * * *"   # 19:23 PKT — evening
   workflow_dispatch:
     inputs:
       dry_run:

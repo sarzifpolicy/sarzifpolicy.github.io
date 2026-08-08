@@ -2,7 +2,7 @@
 
 **Noor — this is for you. No software to install. Everything happens in your web browser.**
 
-The site publishes one article every morning at 6:00am Pakistan time, on its own. You do not need to do anything for that to happen.
+The site publishes three articles a day on its own — at **7:11am, 2:12pm and 7:23pm** Pakistan time. You do not need to do anything for that to happen.
 
 This page is for the days when you want to publish **your own** article instead.
 
@@ -89,9 +89,11 @@ Scroll to the bottom. Click the green **`Commit changes`** button, then **`Commi
 
 ---
 
-## Do it before 6:00am
+## Do it before 7:11am
 
-The site checks for your article at 6:00am Pakistan time. Add it any time before then — the night before is safest.
+The site checks for your article at **7:11am** Pakistan time — the first of the day's three runs. Add it any time before then. The night before is safest.
+
+Your article takes the place of the 7:11am automatic one. The other two, at 2:12pm and 7:23pm, still publish from the queue as normal, so the site still gets three articles that day.
 
 **Missed the deadline, or want it live right now?**
 

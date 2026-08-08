@@ -18,17 +18,31 @@ Live at **https://sarzifpolicy.github.io**
 | `_data/content-calendar.csv` | 120 queued topics |
 | `_data/pointer.txt` | Next slot to publish |
 | `overrides/` | Manual article drop-in — see `overrides/README.md` |
-| `.github/workflows/auto-publish.yml` | Daily 06:00 PKT job |
+| `.github/workflows/auto-publish.yml` | 3x daily job — 07:11, 14:12, 19:23 PKT |
 | `.github/scripts/publish.py` | The publisher |
 
 ## Daily publishing
 
-At 06:00 PKT the workflow checks `overrides/<today>/article.md`.
+**Three articles a day**, on three schedules (Pakistan Standard Time):
 
-- **Manual article present** → publishes it, leaves the calendar pointer alone. The queued topic runs the next day.
-- **No manual article** → takes the next pending topic from the calendar, generates it with Gemini, publishes, advances the pointer.
+| Run | PKT | UTC cron |
+|---|---|---|
+| Morning | 07:11 | `11 2 * * *` |
+| Afternoon | 14:12 | `12 9 * * *` |
+| Evening | 19:23 | `23 14 * * *` |
 
-One article per day either way. Publish on demand from **Actions → Daily article → Run workflow**, with a dry-run option to preview without committing.
+None sit on the hour. GitHub queues every cron firing at `:00` together, so top-of-hour schedules are the most delayed and the most likely to be dropped.
+
+Each run checks `overrides/<today>/article.md` first.
+
+- **Manual article present and not yet used today** → publishes it, leaves the calendar pointer alone. The queued topic keeps its place.
+- **Otherwise** → takes the next pending topic from the calendar, generates it with Gemini, publishes, advances the pointer.
+
+`MAX_POSTS_PER_DAY = 3` in `publish.py` caps the total, so a double-fired or retried workflow can never flood the blog. Publish on demand from **Actions → Daily article → Run workflow**, with `dry run` to preview and `force` to override the daily cap.
+
+**Burn rate:** 120 topics at 3/day is ~40 days. Top the calendar up around day 30.
+
+**Did it actually publish?** Check `_data/pointer.txt`. If the number went up, it published. A green tick alone proves nothing — a dry run also finishes green.
 
 ## Setup checklist
 
